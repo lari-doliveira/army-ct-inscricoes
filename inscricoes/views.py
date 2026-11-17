@@ -44,7 +44,21 @@ def cadastrar(request):
 @permission_required("inscricoes.view_inscricao", raise_exception=True)
 @require_http_methods(["GET"])
 def listar(request):
+    status = request.GET.get("status", "")
+
+    status_validos = {
+        Inscricao.StatusPagamento.PENDENTE,
+        Inscricao.StatusPagamento.CONFIRMADO,
+    }
+
+    if status not in status_validos:
+        status = ""
+
     inscricoes = Inscricao.objects.prefetch_related("integrantes")
+
+    if status:
+        inscricoes = inscricoes.filter(status_pagamento=status)
+
     total_confirmado = Inscricao.objects.filter(
         status_pagamento=Inscricao.StatusPagamento.CONFIRMADO
     ).count()
@@ -55,6 +69,7 @@ def listar(request):
         {
             "inscricoes": inscricoes,
             "total_confirmado": total_confirmado,
+            "status_selecionado": status,
         },
     )
 

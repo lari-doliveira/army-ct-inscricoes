@@ -3,6 +3,27 @@
 {% block conteudo %}
 <h1>Inscrições cadastradas</h1>
 
+<form method="get" class="card">
+  <label for="filtro-status">Filtrar por pagamento</label>
+
+  <select id="filtro-status" name="status">
+    <option value="" {% if not status_selecionado %}selected{% endif %}>
+      Todas
+    </option>
+    <option value="pendente"
+      {% if status_selecionado == "pendente" %}selected{% endif %}>
+      Pendentes
+    </option>
+    <option value="confirmado"
+      {% if status_selecionado == "confirmado" %}selected{% endif %}>
+      Confirmadas
+    </option>
+  </select>
+
+  <button type="submit">Aplicar filtro</button>
+  <a href="/inscricoes/">Limpar filtro</a>
+</form>
+
 <section class="cartao" aria-labelledby="titulo-total">
   <h2 id="titulo-total">Total de inscrições confirmadas</h2>
   <p class="total">{{ total_confirmado }}</p>
