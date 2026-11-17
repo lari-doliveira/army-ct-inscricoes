@@ -1,0 +1,36 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+<h1>Confirmar pagamento</h1>
+
+<section class="cartao">
+  <h2>Inscrição #{{ inscricao.pk }}</h2>
+  <p>Modalidade: {{ inscricao.get_modalidade_display }}</p>
+
+  <ul>
+    {% for integrante in inscricao.integrantes.all %}
+      <li>{{ integrante.nome }}</li>
+    {% endfor %}
+  </ul>
+
+  <p>Status atual: {{ inscricao.get_status_pagamento_display }}</p>
+
+  {% if inscricao.status_pagamento == "pendente" %}
+    <p class="aviso">
+      Confira o comprovante no WhatsApp e os integrantes desta inscrição
+      antes de confirmar. Nenhum pagamento será processado pelo painel.
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="acoes">
+        <button type="submit">Comprovante conferido — confirmar pagamento</button>
+        <a class="botao secundario" href="{% url 'listar' %}">Cancelar</a>
+      </div>
+    </form>
+  {% else %}
+    <p>Este pagamento já está confirmado.</p>
+    <a class="botao" href="{% url 'listar' %}">Voltar às inscrições</a>
+  {% endif %}
+</section>
+{% endblock %}
