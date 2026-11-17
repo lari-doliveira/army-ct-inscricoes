@@ -1,0 +1,17 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+<h1>Nova inscrição</h1>
+<p>Informe um integrante para Individual ou dois para Dupla.</p>
+<p class="ajuda">Modalidade e primeiro integrante são obrigatórios.</p>
+
+<form method="post" class="cartao">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <div class="acoes">
+    <button type="submit">Salvar inscrição</button>
+    <a class="botao secundario" href="{% url 'listar' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

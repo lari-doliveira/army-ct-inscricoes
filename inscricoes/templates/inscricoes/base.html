@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Army CT — Inscrições</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f4f1;
+      color: #172016;
+      line-height: 1.5;
+    }
+    header {
+      background: #171b17;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+    header strong { font-size: 2rem; }
+    main { max-width: 720px; margin: auto; padding: 24px 16px; }
+    nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    nav form { margin: 0; }
+    a { color: #254c20; }
+    button, .botao {
+      display: inline-block;
+      min-height: 44px;
+      padding: 12px 18px;
+      border: 2px solid #254c20;
+      border-radius: 8px;
+      background: #254c20;
+      color: white;
+      font: inherit;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+    }
+    .secundario { background: white; color: #254c20; }
+    .acoes { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+    .cartao {
+      background: white;
+      border: 1px solid #c5cdc2;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 16px 0;
+      overflow-wrap: anywhere;
+    }
+    label { display: block; font-weight: bold; margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px;
+      border: 1px solid #687565;
+      border-radius: 6px;
+      font: inherit;
+    }
+    :focus-visible { outline: 3px solid #926000; outline-offset: 3px; }
+    .errorlist { color: #9b1c1c; font-weight: bold; }
+    .aviso { border-left: 5px solid #254c20; background: #e5efdf; padding: 16px; }
+    .total { font-size: 3rem; font-weight: bold; margin: 0; }
+    .ajuda, .helptext { color: #465143; }
+    footer { text-align: center; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>ARMY CT</strong>
+    <div>Inscrições do simulado</div>
+  </header>
+
+  <main id="conteudo">
+    {% if user.is_authenticated %}
+      <nav aria-label="Navegação principal">
+        <a class="botao secundario" href="{% url 'inicio' %}">Início</a>
+        <span>Usuário: {{ user.username }}</span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="secundario">Sair</button>
+        </form>
+      </nav>
+    {% endif %}
+
+    {% for message in messages %}
+      <p class="aviso" role="status">{{ message }}</p>
+    {% endfor %}
+
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer>Protótipo acadêmico — utilize dados fictícios</footer>
+</body>
+</html>

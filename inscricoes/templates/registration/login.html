@@ -1,0 +1,15 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+<h1>Acesso da equipe</h1>
+<p>Entre com sua conta para acessar as inscrições.</p>
+
+<form method="post" class="cartao">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+  {% endif %}
+  <button type="submit">Entrar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+<h1>Inscrições cadastradas</h1>
+
+<section class="cartao" aria-labelledby="titulo-total">
+  <h2 id="titulo-total">Total de inscrições confirmadas</h2>
+  <p class="total">{{ total_confirmado }}</p>
+  <p>Cada inscrição confirmada ocupa uma vaga, inclusive em dupla.</p>
+</section>
+
+{% if perms.inscricoes.add_inscricao %}
+  <a class="botao" href="{% url 'cadastrar' %}">Nova inscrição</a>
+{% endif %}
+
+{% for inscricao in inscricoes %}
+  <article class="cartao">
+    <h2>#{{ inscricao.pk }} — {{ inscricao.get_modalidade_display }}</h2>
+
+    <ul>
+      {% for integrante in inscricao.integrantes.all %}
+        <li>{{ integrante.nome }}</li>
+      {% endfor %}
+    </ul>
+
+    <p><strong>Status: {{ inscricao.get_status_pagamento_display }}</strong></p>
+
+    {% if inscricao.status_pagamento == "pendente" %}
+      {% if perms.inscricoes.change_inscricao %}
+        <a class="botao" href="{% url 'confirmar' inscricao.pk %}">
+          Conferir e confirmar pagamento
+        </a>
+      {% endif %}
+    {% else %}
+      <p>Confirmado em {{ inscricao.confirmada_em|date:"d/m/Y H:i" }}</p>
+    {% endif %}
+  </article>
+{% empty %}
+  <p class="cartao">Nenhuma inscrição cadastrada.</p>
+{% endfor %}
+{% endblock %}

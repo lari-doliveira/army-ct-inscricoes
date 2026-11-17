@@ -1,0 +1,33 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+{% if inscricao.status_pagamento == "confirmado" %}
+  <h1>✓ Pagamento confirmado</h1>
+{% else %}
+  <h1>Pagamento pendente</h1>
+{% endif %}
+
+<section class="cartao">
+  <h2>Inscrição #{{ inscricao.pk }}</h2>
+  <p>Modalidade: {{ inscricao.get_modalidade_display }}</p>
+
+  <ul>
+    {% for integrante in inscricao.integrantes.all %}
+      <li>{{ integrante.nome }}</li>
+    {% endfor %}
+  </ul>
+
+  <p><strong>Status: {{ inscricao.get_status_pagamento_display }}</strong></p>
+</section>
+
+<section class="cartao">
+  <h2>Total de inscrições confirmadas</h2>
+  <p class="total">{{ total_confirmado }}</p>
+  <p>Cada inscrição confirmada ocupa uma vaga, inclusive em dupla.</p>
+</section>
+
+<div class="acoes">
+  <a class="botao" href="{% url 'listar' %}">Voltar às inscrições</a>
+  <a class="botao secundario" href="{% url 'inicio' %}">Ir ao início</a>
+</div>
+{% endblock %}

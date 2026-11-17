@@ -1,0 +1,19 @@
+{% extends "inscricoes/base.html" %}
+
+{% block conteudo %}
+<h1>Painel de inscrições</h1>
+<p>Cadastre inscrições e acompanhe as confirmações de pagamento.</p>
+
+<div class="acoes">
+  {% if perms.inscricoes.add_inscricao %}
+    <a class="botao" href="{% url 'cadastrar' %}">Nova inscrição</a>
+  {% endif %}
+  <a class="botao secundario" href="{% url 'listar' %}">
+    Consultar inscrições
+  </a>
+</div>
+
+<p class="cartao">
+  Cada inscrição confirmada ocupa uma vaga, inclusive na modalidade dupla.
+</p>
+{% endblock %}
